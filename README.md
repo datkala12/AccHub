@@ -15,3 +15,5 @@ Second is our FE at [here](https://github.com/datkala12/EvH-Fe) or copy this lin
 Using VisualStudioCode to open our project, open terminal by using **Ctrl+Shift+~** and type `cd fe-ui`
 
 Run project by `npm start`
+
+Local web was running at __localhost:3000__
