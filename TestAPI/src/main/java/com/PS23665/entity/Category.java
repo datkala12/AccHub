@@ -25,17 +25,19 @@ public class Category implements Serializable {
 	private int id;
 	private String name;
 	private String cate_image;
+	private String cate_cover;
 	private String cate_des;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "category")
 	private List<Product> product;
 
-	public Category(int id, String name, String cate_image, String cateDes, List<Product> product) {
+	public Category(int id, String name, String cate_image, String cate_cover, String cateDes, List<Product> product) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.cate_image = cate_image;
+		this.cate_cover = cate_cover;
 		this.cate_des = cate_des;
 		this.product = product;
 	}
@@ -66,6 +68,14 @@ public class Category implements Serializable {
 	
 	public void setCateImage(String cate_image) {
 		this.cate_image = cate_image;
+	}
+	
+	public String getCate_cover() {
+		return cate_cover;
+	}
+	
+	public void setCateCover(String cate_cover) {
+		this.cate_cover = cate_cover;
 	}
 	
 	public String getCateDes() {

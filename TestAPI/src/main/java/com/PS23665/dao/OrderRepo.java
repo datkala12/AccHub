@@ -8,11 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.PS23665.entity.Order;
 
-
 @Repository
-public interface OrderRepo extends JpaRepository<Order, Long>{
-
-	@Query("Select o from Order o Where o.account.username= ?1")
-	List<Order> findByUsername(String username);
+public interface OrderRepo extends JpaRepository<Order, Integer>{
 
 }

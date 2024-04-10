@@ -3,6 +3,7 @@ package com.PS23665.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.PS23665.entity.Product;
+import com.PS23665.service.ProductService;
 
 @CrossOrigin(origins ="http://localhost:3000")
 @RestController
@@ -21,6 +23,10 @@ import com.PS23665.entity.Product;
 public class CartController {
 	
 	private List<Product> cart = new ArrayList<>();
+	
+	@Autowired
+    private ProductService productService;
+
 	
 	@PostMapping("/add")
     public ResponseEntity<Void> addToCart(@RequestBody Product product) {

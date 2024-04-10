@@ -21,7 +21,7 @@ public class OrderDetail implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	Double price;
+	Float price;
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
@@ -31,7 +31,7 @@ public class OrderDetail implements Serializable {
     @JoinColumn(name = "order_id")
     private Order order;
 
-	public OrderDetail(Long id, Double price, Product product, Order order) {
+	public OrderDetail(Long id, Float price, Product product, Order order) {
 		super();
 		this.id = id;
 		this.price = price;
@@ -47,11 +47,11 @@ public class OrderDetail implements Serializable {
 		this.id = id;
 	}
 
-	public Double getPrice() {
+	public Float getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
 

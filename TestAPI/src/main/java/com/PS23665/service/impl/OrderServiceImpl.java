@@ -35,13 +35,4 @@ public class OrderServiceImpl implements OrderService{
 
 		return order;
 	}
-	@Override
-	public Order findById(Long id) {
-		return orepo.findById(id).get();
-	}
-
-	@Override
-	public List<Order> findByUsername(String username) {
-		return orepo.findByUsername(username);
-	}
 }

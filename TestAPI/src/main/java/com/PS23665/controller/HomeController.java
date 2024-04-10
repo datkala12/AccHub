@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,22 +54,13 @@ public class HomeController {
         return "contact";
     }
 
-    
+    @PostMapping("/admin/products")
+    public Product getCrudProduct(@RequestBody Product product){
+    	return this.productService.create(product);
+    }
     
     @GetMapping("/products")
-//    public String list1(Model model, @RequestParam("cid") Optional<String> cid) {
       public List<Product> getProducts() {
-//        if (cid.isPresent()) {
-//            List<Product> list = productService.findByCategoryID(cid.get());
-//            model.addAttribute("items", list);
-//        } else {
-//            List<Product> list = productService.findAll();
-//            model.addAttribute("items", list);
-//        }
-//        List<Category> categories = categoryService.findAll();
-//        model.addAttribute("categories", categories);
-//    	 List<Product> list = productService.findAll();
-//    	 model.addAttribute("items", list);
         return this.productDAO.findAll(); // Đảm bảo rằng bạn chuyển hướng về view "hello"
     }
     

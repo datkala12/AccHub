@@ -26,16 +26,8 @@ public class Account implements Serializable {
 	private String email;
 	@NotBlank(message = "Không được để trống")
 	private String password;
-	private int status;
+	private int acc_status;
 	private String wl;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "account")
-	List<Order> orders;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-	List<Authority> authorities;
 
 	public String getUsername() {
 		return username;
@@ -62,11 +54,11 @@ public class Account implements Serializable {
 	}
 
 	public int getStatus() {
-		return status;
+		return acc_status;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setStatus(int acc_status) {
+		this.acc_status = acc_status;
 	}
 
 	public String getWl() {
@@ -77,37 +69,18 @@ public class Account implements Serializable {
 		this.wl = wl;
 	}
 
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
-
-	public List<Authority> getAuthorities() {
-		return authorities;
-	}
-
-	public void setAuthorities(List<Authority> authorities) {
-		this.authorities = authorities;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	public Account(String username, @NotBlank(message = "Không được để trống") String email,
-			@NotBlank(message = "Không được để trống") String password, int status, String wl, List<Order> orders,
-			List<Authority> authorities) {
+			@NotBlank(message = "Không được để trống") String password, int acc_status, String wl) {
 		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.status = status;
+		this.acc_status = acc_status;
 		this.wl = wl;
-		this.orders = orders;
-		this.authorities = authorities;
 	}
 
 	public Account() {
