@@ -12,12 +12,6 @@ drop table categories
 use AccShop;
 go
 
--- Tạo bảng role
-CREATE TABLE roles (
-    id INT PRIMARY KEY,
-    role_name VARCHAR(50)
-);
-
 -- Tạo bảng accounts
 CREATE TABLE accounts (
 	username VARCHAR(50) PRIMARY KEY NOT NULL,
@@ -25,15 +19,6 @@ CREATE TABLE accounts (
     password VARCHAR(255) NOT NULL,
     acc_status INT,
     wl VARCHAR(225),
-);
-
--- Tạo bảng Authority
-CREATE TABLE authorities (
-	id INT PRIMARY KEY NOT NULL,
-	acc_user VARCHAR(50),
-	role_id INT,
-	FOREIGN KEY (acc_user) REFERENCES accounts(username),
-	FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
 -- Tạo bảng categories
@@ -66,23 +51,41 @@ CREATE TABLE product (
     FOREIGN KEY (cate_id) REFERENCES categories(id)
 );
 
--- Tạo bảng order
-CREATE TABLE orders (
+-- Tạo bảng order_new
+CREATE TABLE orders(
     id INT PRIMARY KEY,
 	order_status INT,
 	createDate DATE,
-    acc_user VARCHAR(50),
-    FOREIGN KEY (acc_user) REFERENCES accounts(username)
+    fullname NVARCHAR(60),
+	email VARCHAR(50)
 );
 
--- Tạo bảng order_details
+-- Tạo bảng order_details_new
 CREATE TABLE order_details (
     id INT PRIMARY KEY,
-	price float,
+	price_total float,
 	product_id INT,
     order_id INT,
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES product(product_id)
+);
+
+-- Tạo bảng contact
+CREATE TABLE contact (
+    id INT PRIMARY KEY,
+	fullname VARCHAR(50),
+	email VARCHAR(50),
+    message VARCHAR(500)
+);
+
+-- Tạo bảng Sell_Suggest
+CREATE TABLE game_suggest (
+    id INT PRIMARY KEY,
+	cate_id INT,
+	email VARCHAR(50),
+	price float,
+    description VARCHAR(500),
+	FOREIGN KEY (cate_id) REFERENCES categories(id)
 );
 
 -- Chèn dữ liệu vào bảng account
@@ -98,37 +101,18 @@ VALUES ('daole123', 'daole123@example.com', '12345', 1, 0),
 	   ('xuho123', 'xuho123@example.com', '12345', 1, 0),
 	   ('inchao123', 'inchao123@example.com', '12345', 1, 0);
 
--- Chèn dữ liệu vào bảng roles
-INSERT INTO roles (id, role_name)
-VALUES (1, 'Admin'),
-       (2, 'User'),
-	   (3, 'Manager');
-
--- Chèn dữ liệu vào bảng authorities
-INSERT INTO authorities (id, acc_user, role_id)
-VALUES (1, 'daole123', 1),
-(2, 'ledao132', 1),
-(3, 'zolao123', 2),
-(4, 'minhloc123', 2),
-(5, 'xinhao123', 2),
-(6, 'xichao123', 3),
-(7, 'linchao123', 2),
-(8, 'lichao123', 3),
-(9, 'xuho123', 2),
-(10, 'inchao123', 2);
-
 -- Chèn dữ liệu vào bảng categories
 INSERT INTO categories (id, name, cate_image, cate_cover, cate_des)
-VALUES (1, 'Valorant', 'https://inkythuatso.com/uploads/images/2022/03/thumb-1920-1072679-16-15-52-24.jpg','https://i.ytimg.com/vi/IC24y-21_Us/maxresdefault.jpg',
+VALUES (1, 'Valorant', 'https://inkythuatso.com/uploads/images/2022/03/thumb-1920-1072679-16-15-52-24.jpg','https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blt6d96e9ecf0a87c3e/654def68bb246f040a4dcbc2/Val_Ep7_PatchNotes_7.10_bm2.jpg',
 		'Valorant is a tactical first-person shooter game developed and published by Riot Games, officially released on June 2, 2020. Set in a near-future Earth, Valorant features a high-stakes conflict between two factions: the attackers, who strive to plant a bomb called the Spike, and the defenders, who aim to prevent the attackers from achieving their objective.'),
 	   (2, 'League of Legends', 'https://gcs.tripi.vn/public-tripi/tripi-feed/img/472683Owi/hinh-nen-dinh-cao-lien-minh-huyen-thoai-danh-cho-pc-va-dien-thoai_21','https://beelevelup.com/assets/img/category/banner/2.jpg',
-	   'League of Legends (LoL) was launched on October 27, 2009 by Riot Games. LoL is set in the fictional world of Runeterra, where powerful champions battle it out in 5v5 matches. The game is renowned for its stunning graphics, deep strategic gameplay, and a wide array of diverse champions with unique abilities.'),
-	   (3, 'Dota 2', 'https://didongviet.vn/dchannel/wp-content/uploads/2023/07/thong-tin-game-dota-2-didongviet.jpg','https://mega.com.vn/media/news/1105_ban-do-dota-2.jpg',
-	   'Dota 2 is a multiplayer online battle arena (MOBA) game developed and published by Valve Corporation, officially released on July 9, 2013. Set in the mythical world of Dota, the game pits two teams of five players against each other in a strategic battle to destroy the opponent`s Ancient, a heavily guarded structure at the heart of their base.'),
-	   (4, 'PlayerUnknowns Battlegrounds', 'https://bloganchoi.com/wp-content/uploads/2020/11/game-pubg.jpg','https://4.bp.blogspot.com/-OiFv-sdApdc/W_IQg4myjOI/AAAAAAAARUo/Q4mu59DnDsoiSQ-XtKKl9X8OhcDnbfWswCLcBGAs/s0/hinh-nen-pubg-dep-3.jpg',
+	   'League of Legends (LoL) was launched on October 27, 2009 by Riot Games. LoL is set in the fictional world of Runeterra, where powerful champions battle it out in 5v5 matches. The game is renowned for its stunning graphics, deep strategic gameplay, and a wide array of diverse champions with unique abilities.'),	   
+	   (3, 'PlayerUnknowns Battlegrounds', 'https://bloganchoi.com/wp-content/uploads/2020/11/game-pubg.jpg','https://4.bp.blogspot.com/-OiFv-sdApdc/W_IQg4myjOI/AAAAAAAARUo/Q4mu59DnDsoiSQ-XtKKl9X8OhcDnbfWswCLcBGAs/s0/hinh-nen-pubg-dep-3.jpg',
 	   'PlayerUnknown`s Battlegrounds (PUBG) is a multiplayer battle royale game developed and published by PUBG Corporation, officially released on December 20, 2017. Set on various maps inspired by real-world locations, PUBG drops up to 100 players onto an island where they must scavenge for weapons, armor, and supplies while eliminating other players to be the last one standing.'),
-	   (5, 'Counter-Strike: Global Offensive', 'https://genk.mediacdn.vn/139269124445442048/2023/3/23/cs2-1679530147879794733797-1679530422473-16795304225911207505362.png','https://genk.mediacdn.vn/139269124445442048/2023/3/6/dot-16780888090211273362797-1678089707454-16780897076611798484610.jpg',
-	   'Counter-Strike 2 (CS2) is a highly anticipated sequel to the iconic first-person shooter game Counter-Strike, developed by Valve Corporation. Released on [2023], CS2 builds upon the foundation laid by its predecessor, offering intense tactical gameplay, realistic weapon mechanics, and competitive multiplayer action.');
+	   (4, 'Counter-Strike: Global Offensive', 'https://genk.mediacdn.vn/139269124445442048/2023/3/23/cs2-1679530147879794733797-1679530422473-16795304225911207505362.png','https://genk.mediacdn.vn/139269124445442048/2023/3/6/dot-16780888090211273362797-1678089707454-16780897076611798484610.jpg',
+	   'Counter-Strike 2 (CS2) is a highly anticipated sequel to the iconic first-person shooter game Counter-Strike, developed by Valve Corporation. Released on [2023], CS2 builds upon the foundation laid by its predecessor, offering intense tactical gameplay, realistic weapon mechanics, and competitive multiplayer action.'),
+	   (5, 'Dota 2', 'https://didongviet.vn/dchannel/wp-content/uploads/2023/07/thong-tin-game-dota-2-didongviet.jpg','https://mega.com.vn/media/news/1105_ban-do-dota-2.jpg',
+	   'Dota 2 is a multiplayer online battle arena (MOBA) game developed and published by Valve Corporation, officially released on July 9, 2013. Set in the mythical world of Dota, the game pits two teams of five players against each other in a strategic battle to destroy the opponent`s Ancient, a heavily guarded structure at the heart of their base.');
 
 -- Chèn dữ liệu vào bảng product
 INSERT INTO product (product_id, name, description, status, image_cover, image_detail, price, rental_duration, rank, level, item, type, acc_user, acc_pass, date_create, cate_id)
@@ -184,27 +168,24 @@ VALUES
 (25, 'PUBG', 'Rare weapon and high rank', 1, 'https://mega.com.vn/media/news/2305_Hinh-nen-maytinh-Pubg-4k7.jpg', 'https://pbs.twimg.com/media/Dib-0wlU8AE2I6v.jpg'
 , 19.99, NULL, 'Gold ', 10, 'Over 10 items', 'Sell', 'user5', 'pass5', '2023-01-05', 4);
 
-
--- Chèn dữ liệu vào bảng orders
-INSERT INTO orders (id, order_status, createDate, acc_user)
+INSERT INTO orders (id, order_status, createDate, fullname, email)
 VALUES 
-(1, 1, '2024-01-15', 'daole123'),
-(2, 0, '2024-01-17', 'daole123'),
-(3, 0, '2024-02-01', 'ledao132'),
-(4, 1, '2024-02-06', 'ledao132'),
-(5, 1, '2024-01-02', 'inchao123'),
-(6, 1, '2024-01-23', 'zolao123'),
-(7, 0, '2024-02-15', 'minhloc123'),
-(8, 1, '2024-02-26', 'minhloc123'),
-(9, 0, '2024-02-15', 'xinhao123'),
-(10, 1, '2024-02-26', 'linchao123'),
-(11, 0, '2024-02-15', 'lichao123'),
-(12, 1, '2024-02-26', 'xuho123'),
-(13, 1, '2024-01-29', 'xinhao123'),
-(14, 1, '2024-02-20', 'xichao123');
+(1, 1, '2024-01-15', 'John Harry', 'harrykane@gmail.com'),
+(2, 0, '2024-01-17', 'Luis Vios', 'luisvios@gmail.com'),
+(3, 0, '2024-02-01', 'Thanh Dat', 'thanhdat@gmail.com'),
+(4, 1, '2024-02-06', 'Cao Lee', 'caolee@gmail.com'),
+(5, 1, '2024-01-02', 'Show Miro', 'showmiro@gmail.com'),
+(6, 1, '2024-01-23', 'Zalo Doc', 'zalodoc@gmail.com'),
+(7, 0, '2024-02-15', 'Harry Kane', 'harrykane@gmail.com'),
+(8, 1, '2024-02-26', 'Otaku Nomi', 'otakunomi@gmail.com'),
+(9, 0, '2024-02-15', 'Habario Ku', 'haibarioku@gmail.com'),
+(10, 1, '2024-02-26', 'Lee Son Hung', 'leesonhung@gmail.com'),
+(11, 0, '2024-02-15', 'Kai Duki', 'kaiduki@gmail.com'),
+(12, 1, '2024-02-26', 'Hurry On', 'hurryon@gmail.com'),
+(13, 1, '2024-01-29', 'Killer Queen', 'killerqueen@gmail.com'),
+(14, 1, '2024-02-20', 'Nigger Pog', 'niggerpog@gmail.com');
 
--- Chèn dữ liệu vào bảng order_details
-INSERT INTO order_details (id, price, product_id, order_id)
+INSERT INTO order_details (id, price_total, product_id, order_id)
 VALUES
 (1, 60, 1, 1),
 (2, 70, 2, 4),
@@ -216,9 +197,35 @@ VALUES
 (8, 70, 10, 13),
 (9, 90, 3, 14);
 
+INSERT INTO contact (id, fullname, email, message)
+VALUES 
+(1, 'John Witch', 'johnwitch@gmail.com','Your website was greate good to come here'),
+(2, 'John Bard', 'johnbard@gmail.com','Your website was greate glad to come here'),
+(3, 'John Michael', 'michael@gmail.com','Your website was greate good to come here'),
+(4, 'Hius Khois', 'khoisetr@gmail.com','Your website was greate good to come here'),
+(5, 'Siltes', 'khouste@gmail.com','Your website was greate good to come here'),
+(6, 'Poflityt', 'skhouitr@gmail.com','Your website was greate good to come here'),
+(7, 'Siitkdet', 'sdo8t@gmail.com','Your website was greate good to come here'),
+(8, 'Soidilet', 'doiugt@gmail.com','Your website was greate good to come here'),
+(9, 'Poilois', 'siugtr@gmail.com','Your website was greate good to come here');
+
+INSERT INTO game_suggest (id, cate_id, email, price, description) 
+VALUES
+(1, 1, 'example1@example.com', 10.5, 'Description for item 1'),
+(2, 2, 'example2@example.com', 15.75, 'Description for item 2'),
+(3, 4, 'example3@example.com', 20.0, 'Description for item 3'),
+(4, 3, 'example4@example.com', 8.99, 'Description for item 4'),
+(5, 5, 'example5@example.com', 12.25, 'Description for item 5'),
+(6, 3, 'example6@example.com', 17.0, 'Description for item 6'),
+(7, 5, 'example7@example.com', 9.5, 'Description for item 7'),
+(8, 2, 'example8@example.com', 22.75, 'Description for item 8'),
+(9, 3, 'example9@example.com', 13.99, 'Description for item 9'),
+(10, 1, 'example10@example.com', 18.5, 'Description for item 10');
+
 select * from accounts;
-select * from roles;
 select * from categories;
 select * from product;
 select * from orders;
 select * from order_details;
+select * from game_suggest;
+select * from contact;
