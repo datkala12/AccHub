@@ -28,10 +28,9 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 	private int order_status;
-//	@Temporal(TemporalType.DATE)
-//	@Column(name = "createDate")
-//	Date createDate = new Date();
-	private Date createDate;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "createDate")
+	Date createDate = new Date();
 	private String fullname;
 	private String email;
 
