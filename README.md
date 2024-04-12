@@ -2,6 +2,12 @@
 
 Website for selling, renting and buying account by using Solana payment
 
+# Description for each file 
+
+* databse using SQL Server to run
+* TestAPI using SpringToolSuite4 to run
+* resources have our pitch deck, final presentation
+
 # HOW TO INSTALL
 
 First is our BE at [here](https://github.com/datkala12/AccHub/tree/main) or copy this link `https://github.com/datkala12/AccHub.git`
