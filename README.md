@@ -23,3 +23,5 @@ Using VisualStudioCode to open our project, open terminal by using **Ctrl+Shift+
 Run project by `npm start`
 
 Local web was running at __localhost:3000__
+
+* All the issue you can read [here](https://github.com/datkala12/EvH-Fe/blob/main/README.md)
